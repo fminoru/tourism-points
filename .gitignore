@@ -93,6 +93,11 @@ TestResults/
 *.pfx
 *.publishsettings
 
+# --- SQLite (local dev) ---
+*.db
+*.db-shm
+*.db-wal
+
 # --- OS ---
 .DS_Store
 Thumbs.db
