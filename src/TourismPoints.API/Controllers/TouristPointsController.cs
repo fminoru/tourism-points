@@ -10,20 +10,33 @@ namespace TourismPoints.API.Controllers;
 public class TouristPointsController : ControllerBase
 {
     private readonly ITouristPointRepository _repository;
+    private readonly ILogger<TouristPointsController> _logger;
 
-    public TouristPointsController(ITouristPointRepository repository)
+    public TouristPointsController(
+        ITouristPointRepository repository,
+        ILogger<TouristPointsController> logger)
     {
         _repository = repository;
+        _logger = logger;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string? search = null)
     {
         var (items, totalCount) = await _repository.GetAllAsync(page, pageSize, search);
-        
-        return Ok(new 
+        var itemList = items.ToList();
+
+        _logger.LogInformation(
+            "Returning {ReturnedCount} tourist points out of {TotalCount} for page {Page} with page size {PageSize} and search term {SearchTerm}",
+            itemList.Count,
+            totalCount,
+            page,
+            pageSize,
+            search ?? string.Empty);
+
+        return Ok(new
         {
-            Items = items,
+            Items = itemList,
             TotalCount = totalCount,
             Page = page,
             PageSize = pageSize,
@@ -36,8 +49,12 @@ public class TouristPointsController : ControllerBase
     {
         var item = await _repository.GetByIdAsync(id);
         if (item == null)
+        {
+            _logger.LogWarning("Tourist point {TouristPointId} was not found", id);
             return NotFound();
-        
+        }
+
+        _logger.LogInformation("Returning tourist point {TouristPointId}", id);
         return Ok(item);
     }
 
@@ -45,7 +62,10 @@ public class TouristPointsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateTouristPointDto dto)
     {
         if (!ModelState.IsValid)
+        {
+            _logger.LogWarning("Validation failed while creating a tourist point");
             return BadRequest(ModelState);
+        }
 
         var entity = new TouristPoint
         {
@@ -57,6 +77,12 @@ public class TouristPointsController : ControllerBase
         };
 
         var created = await _repository.CreateAsync(entity);
+        _logger.LogInformation(
+            "Created tourist point {TouristPointId} for {Name} in {City}/{State}",
+            created.Id,
+            created.Name,
+            created.City,
+            created.State);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
@@ -64,11 +90,17 @@ public class TouristPointsController : ControllerBase
     public async Task<IActionResult> Update(int id, [FromBody] CreateTouristPointDto dto)
     {
         if (!ModelState.IsValid)
+        {
+            _logger.LogWarning("Validation failed while updating tourist point {TouristPointId}", id);
             return BadRequest(ModelState);
+        }
 
         var existing = await _repository.GetByIdAsync(id);
         if (existing == null)
+        {
+            _logger.LogWarning("Cannot update tourist point {TouristPointId} because it was not found", id);
             return NotFound();
+        }
 
         existing.Name = dto.Name;
         existing.Description = dto.Description;
@@ -77,6 +109,12 @@ public class TouristPointsController : ControllerBase
         existing.State = dto.State;
 
         var updated = await _repository.UpdateAsync(existing);
+        _logger.LogInformation(
+            "Updated tourist point {TouristPointId} for {Name} in {City}/{State}",
+            updated.Id,
+            updated.Name,
+            updated.City,
+            updated.State);
         return Ok(updated);
     }
 
@@ -85,8 +123,12 @@ public class TouristPointsController : ControllerBase
     {
         var result = await _repository.DeleteAsync(id);
         if (!result)
+        {
+            _logger.LogWarning("Cannot delete tourist point {TouristPointId} because it was not found", id);
             return NotFound();
-        
+        }
+
+        _logger.LogInformation("Deleted tourist point {TouristPointId}", id);
         return NoContent();
     }
 }
