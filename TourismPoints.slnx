@@ -4,4 +4,7 @@
     <Project Path="src/TourismPoints.Domain/TourismPoints.Domain.csproj" />
     <Project Path="src/TourismPoints.Infrastructure/TourismPoints.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TourismPoints.Tests/TourismPoints.Tests.csproj" />
+  </Folder>
 </Solution>
