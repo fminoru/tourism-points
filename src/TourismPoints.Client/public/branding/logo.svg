@@ -1,0 +1,23 @@
+<svg width="512" height="160" viewBox="0 0 512 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(12 10)">
+    <circle cx="66" cy="70" r="48" fill="#E3ECF6" stroke="#496899" stroke-width="8"/>
+    <path d="M23 70H109" stroke="#496899" stroke-width="6" stroke-linecap="round"/>
+    <path d="M31 48C42 54 54 57 66 57C78 57 90 54 101 48" stroke="#496899" stroke-width="6" stroke-linecap="round"/>
+    <path d="M31 92C42 86 54 83 66 83C78 83 90 86 101 92" stroke="#496899" stroke-width="6" stroke-linecap="round"/>
+    <path d="M66 24C53 37 46 53 46 70C46 87 53 103 66 116" stroke="#496899" stroke-width="6" stroke-linecap="round"/>
+    <path d="M66 24C79 37 86 53 86 70C86 87 79 103 66 116" stroke="#496899" stroke-width="6" stroke-linecap="round"/>
+    <path d="M114 48C114 66 99.5 78.5 92.5 91.5C89.5 97.2 86.8 103 84.5 109C81.8 103.1 78.9 97.3 75.7 91.7C68.2 78.7 55 66.1 55 48C55 31.2 68.6 17.5 85.4 17.5C101.2 17.5 114 30.3 114 48Z" fill="#C96F4C" stroke="#2D2922" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="84.5" cy="47.5" r="12" fill="#FFF8EE" stroke="#2D2922" stroke-width="5"/>
+  </g>
+
+  <g transform="translate(152 34)">
+    <text x="0" y="42" fill="#2D2922" font-family="Trebuchet MS, Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="0.5">
+      Pontos Turisticos
+    </text>
+    <text x="2" y="76" fill="#6E6557" font-family="Trebuchet MS, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3">
+      MAPA DE DESTINOS
+    </text>
+    <path d="M0 96H284" stroke="#D7CDBA" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="302" cy="96" r="8" fill="#496899"/>
+  </g>
+</svg>
