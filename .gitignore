@@ -1,0 +1,105 @@
+# --- Build outputs ---
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+**/bin/
+**/obj/
+**/publish/
+**/[Pp]ublish/
+artifacts/
+dist/
+
+# --- .NET / NuGet ---
+*.nupkg
+*.snupkg
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+.nuget/
+*.nuget.props
+*.nuget.targets
+packages/
+!**/packages/build/
+
+# --- Test & coverage ---
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+*.opencover.xml
+TestResults/
+*.received.*
+
+# --- Visual Studio / MSBuild ---
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+*.rsuser
+*.pidb
+*.svclog
+*.pdb
+*.cache
+*.ilk
+*.meta
+*.iobj
+*.pch
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.scc
+
+# --- JetBrains Rider ---
+.idea/
+*.sln.iml
+
+# --- VS Code (keep shared workspace settings if present) ---
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# --- ASP.NET / local secrets ---
+**/appsettings.*.local.json
+**/secrets.json
+*.pfx
+*.publishsettings
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Docker (optional local overrides) ---
+docker-compose.override.yml
+.env
+.env.local
+.env.*.local

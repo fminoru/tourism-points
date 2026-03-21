@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TourismPoints.API/TourismPoints.API.csproj" />
+    <Project Path="src/TourismPoints.Domain/TourismPoints.Domain.csproj" />
+    <Project Path="src/TourismPoints.Infrastructure/TourismPoints.Infrastructure.csproj" />
+  </Folder>
+</Solution>
