@@ -1,0 +1,23 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'actorBorder': '#1565C0', 'actorBkg': '#E3F2FD'}}}%%
+sequenceDiagram
+    participant Browser
+    participant Form as TouristPointForm
+    participant API as api.ts
+    participant Ctrl as Controller
+    participant Repo as Repository
+    participant DB as SQLite
+    
+    Browser->>Form: 1. User fills form fields
+    Browser->>Form: 2. User clicks "Create" button
+    Form->>Form: 3. Validate form (client-side)
+    Form->>API: 4. api.create(payload)
+    API->>Ctrl: 5. POST /api/touristpoints<br/>Body: CreateTouristPointDto
+    Ctrl->>Ctrl: 6. Validate ModelState (server-side)
+    Ctrl->>Repo: 7. CreateAsync(entity)
+    Repo->>DB: 8. _context.Add()
+    Repo->>DB: 9. SaveChangesAsync()
+    DB-->>Repo: 10. INSERT SQL
+    Repo-->>Ctrl: 11. Returns new TouristPoint
+    Ctrl-->>API: 12. HTTP 201 Created<br/>Location: /{id}
+    API-->>Form: 13. Returns created TouristPoint
+    Form-->>Browser: 14. Show success & redirect

@@ -1,0 +1,19 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'actorBorder': '#1565C0', 'actorBkg': '#E3F2FD'}}}%%
+sequenceDiagram
+    participant Browser
+    participant App as App.tsx
+    participant API as api.ts
+    participant Ctrl as Controller
+    participant Repo as Repository
+    participant DB as SQLite
+    
+    Browser->>App: 1. User navigates to home page
+    App->>API: 2. useEffect calls api.getAll()
+    API->>Ctrl: 3. GET /api/touristpoints?page=1&pageSize=10&search=...
+    Ctrl->>Repo: 4. GetAll(page, pageSize, search)
+    Repo->>DB: 5. SQL Query (EF Core)
+    DB-->>Repo: 6. Returns IEnumerable<TouristPoint>
+    Repo-->>Ctrl: 7. Build response with pagination metadata
+    Ctrl-->>API: 8. HTTP 200 OK
+    API-->>App: 9. Returns PaginatedResponse
+    App-->>Browser: 10. Update state & render list

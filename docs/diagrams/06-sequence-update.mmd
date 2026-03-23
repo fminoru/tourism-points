@@ -1,0 +1,31 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'actorBorder': '#1565C0', 'actorBkg': '#E3F2FD'}}}%%
+sequenceDiagram
+    participant Browser
+    participant Form as TouristPointForm
+    participant API as api.ts
+    participant Ctrl as Controller
+    participant Repo as Repository
+    participant DB as SQLite
+    
+    Browser->>Form: 1. User clicks "Edit" button
+    Form->>API: 2. Load existing data (api.getById)
+    API-->>Form: Existing TouristPoint
+    Form->>Browser: 3. Populate form with data
+    Browser->>Form: 4. User modifies & saves
+    Form->>API: 5. api.update(id, payload)
+    API->>Ctrl: 6. PUT /api/touristpoints/{id}<br/>Body: CreateTouristPointDto
+    Ctrl->>Repo: 7. GetByIdAsync(id)
+    
+    alt not found
+        Ctrl-->>API: 8a. HTTP 404 Not Found
+    else found
+        Ctrl->>Ctrl: 8b. Update entity fields
+        Ctrl->>Repo: 9. UpdateAsync(entity)
+        Repo->>DB: 10. _context.Update()
+        Repo->>DB: 11. SaveChangesAsync()
+        DB-->>Repo: 12. UPDATE SQL
+        Repo-->>Ctrl: 13. Updated TouristPoint
+        Ctrl-->>API: 14. HTTP 200 OK
+        API-->>Form: 15. Returns updated TouristPoint
+        Form-->>Browser: 16. Show success & redirect
+    end

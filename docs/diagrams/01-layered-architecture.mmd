@@ -1,0 +1,45 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#E3F2FD', 'primaryTextColor': '#1565C0', 'primaryBorderColor': '#1565C0', 'lineColor': '#424242', 'secondaryColor': '#FFF3E0', 'tertiaryColor': '#F3E5F5'}}}%%
+graph TB
+    subgraph PRESENTATION["PRESENTATION LAYER (React SPA - Client)"]
+        Components["Components<br/>(UI Layer)"]
+        App["App.tsx<br/>(State)"]
+        API["api.ts<br/>(Services)"]
+        Axios["Axios<br/>(HTTP)"]
+        
+        Components --> App
+        App --> API
+        API --> Axios
+    end
+    
+    subgraph API_LAYER["API LAYER (.NET 10)"]
+        Controllers["Controllers<br/>(REST API)"]
+        DTOs["DTOs<br/>(Validation)"]
+        Repository["Repository<br/>Pattern"]
+        EF["Entity<br/>Framework"]
+        
+        Controllers --> DTOs
+        DTOs --> Repository
+        Repository --> EF
+    end
+    
+    subgraph INFRA["INFRASTRUCTURE LAYER"]
+        DbContext["DbContext<br/>(EF Core)"]
+        RepoImpl["Repository<br/>Implementation"]
+        SQLite["SQLite<br/>Database"]
+        
+        DbContext --> RepoImpl
+        RepoImpl --> SQLite
+    end
+    
+    subgraph DOMAIN["DOMAIN LAYER"]
+        TouristPoint["TouristPoint Entity<br/>- Id: int (Key)<br/>- Name: string<br/>- Description: string<br/>- Location: string<br/>- City: string<br/>- State: string<br/>- CreatedAt: DateTime"]
+    end
+    
+    Axios -.->|"HTTP"| Controllers
+    EF -.-> DbContext
+    RepoImpl -.-> TouristPoint
+    
+    style PRESENTATION fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+    style API_LAYER fill:#FFF3E0,stroke:#E65100,stroke-width:2px
+    style INFRA fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+    style DOMAIN fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px

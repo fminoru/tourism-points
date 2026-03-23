@@ -1,0 +1,41 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#E3F2FD', 'lineColor': '#424242'}}}%%
+flowchart LR
+    subgraph CLIENT["CLIENT (Browser)"]
+        UA["User Action"]
+        RC["React Component"]
+        API["api.ts"]
+        HR["HTTP Request"]
+        
+        UA --> RC
+        RC --> API
+        API --> HR
+        HR -.->|"State Update"| RC
+    end
+    
+    subgraph BACKEND["ASP.NET CORE API"]
+        subgraph MIDDLEWARE["Middleware Pipeline"]
+            EH["ExceptionHandler"]
+            SL["Serilog"]
+            CS["CORS"]
+            AZ["Authorization"]
+        end
+        
+        CTRL["TouristPointsController<br/>• Validates request<br/>• Calls repository<br/>• Returns IActionResult"]
+        REPO_INTF["ITouristPointRepository<br/>• Defines data access contract"]
+        
+        MIDDLEWARE --> CTRL
+        CTRL --> REPO_INTF
+    end
+    
+    subgraph DATA["INFRASTRUCTURE LAYER"]
+        REPO_IMPL["TouristPointRepository<br/>• Implements interface<br/>• Uses TourismDbContext<br/>• Handles CRUD operations"]
+        DB_CTX["TourismDbContext<br/>• EF Core DbContext<br/>• Configures mappings<br/>• SQLite: tourism.db"]
+    end
+    
+    HR -->|"HTTP localhost:5151"| CS
+    REPO_INTF -.-> REPO_IMPL
+    REPO_IMPL --> DB_CTX
+    
+    style CLIENT fill:#E3F2FD,stroke:#1565C0
+    style BACKEND fill:#FFF3E0,stroke:#E65100
+    style DATA fill:#E8F5E9,stroke:#2E7D32

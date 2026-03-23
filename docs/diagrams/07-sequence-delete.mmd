@@ -1,0 +1,30 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'actorBorder': '#1565C0', 'actorBkg': '#E3F2FD'}}}%%
+sequenceDiagram
+    participant Browser
+    participant List as TouristPointList
+    participant API as api.ts
+    participant Ctrl as Controller
+    participant Repo as Repository
+    participant DB as SQLite
+    
+    Browser->>List: 1. User clicks "Delete" button
+    List->>Browser: 2. Confirm dialog (user confirms)
+    List->>API: 3. api.delete(id)
+    API->>Ctrl: 4. DELETE /api/touristpoints/{id}
+    Ctrl->>Repo: 5. DeleteAsync(id)
+    Repo->>DB: 6. _context.Remove()
+    Repo->>DB: 7. SaveChangesAsync()
+    DB-->>Repo: 8. DELETE SQL
+    
+    alt success
+        Repo-->>Ctrl: 9a. Affected rows > 0
+        Ctrl-->>API: 10a. HTTP 204 No Content
+    else not found
+        Repo-->>Ctrl: 9b. Affected rows = 0
+        Ctrl-->>API: 10b. HTTP 404 Not Found
+    end
+    
+    alt success
+        API-->>List: 11. Refresh list (api.getAll)
+        List-->>Browser: 12. Show updated list
+    end

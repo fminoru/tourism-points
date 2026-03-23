@@ -1,0 +1,23 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'actorBorder': '#1565C0', 'actorBkg': '#E3F2FD'}}}%%
+sequenceDiagram
+    participant Browser
+    participant List as TouristPointList
+    participant API as api.ts
+    participant Ctrl as Controller
+    participant Repo as Repository
+    participant DB as SQLite
+    
+    Browser->>List: 1. User clicks view button
+    List->>API: 2. api.getById(id)
+    API->>Ctrl: 3. GET /api/touristpoints/{id}
+    Ctrl->>Repo: 4. GetByIdAsync(id)
+    Repo->>DB: 5. FindAsync(id)
+    DB-->>Repo: 6. TouristPoint?
+    Repo-->>Ctrl: 7. TouristPoint (or null)
+    alt if found
+        Ctrl-->>API: 7a. HTTP 200 OK
+        API-->>List: 8. Returns TouristPoint
+        List-->>Browser: 9. Show details or form
+    else not found
+        Ctrl-->>API: 7b. HTTP 404 Not Found
+    end
