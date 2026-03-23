@@ -47,6 +47,8 @@ tourism-points/
 
 The API project references **Domain** and **Infrastructure**. The client is independent and talks to the API over HTTP.
 
+For a deeper design overview, see [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
+
 ---
 
 ## Clone the repository
